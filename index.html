@@ -1058,14 +1058,23 @@ const FAQ = [
     category: "Compte SMD",
 
     keywords: [
-      "SMD"
       "connexion SMD",
       "connecter SMD",
-      "mot de passe SMD",
-      "identifiants SMD",
+      "connexion à SMD",
+      "connexion au SMD",
       "compte SMD",
+      "compte smd",
+      "mot de passe SMD",
+      "mot de passe du SMD",
+      "identifiant SMD",
+      "identifiants SMD",
+      "identifiant du SMD",
+      "identifiants du SMD",
+      "login SMD",
+      "login du SMD",
       "accès SMD",
-      "login SMD"
+      "acces SMD",
+      "je ne connais pas mes identifiants"
     ],
 
     title:
@@ -1550,7 +1559,12 @@ function openDocument(doc){
 
   if(!isMobileDevice()){
 
-    window.location.href = doc.url;
+    const opened = window.open(doc.url, "_blank", "noopener,noreferrer");
+
+    // Certains navigateurs bloquent window.open ; on garde un repli.
+    if(!opened){
+      window.location.href = doc.url;
+    }
 
     return;
 
