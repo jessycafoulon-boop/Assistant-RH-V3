@@ -1,0 +1,2085 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Assistant RH</title>
+
+<style>
+:root{
+  --primary:#2457a6;
+  --primary-dark:#173d78;
+  --bg:#f4f7fb;
+  --card:#fff;
+  --text:#172033;
+  --muted:#667085;
+  --border:#dfe5ee;
+  --success:#16794c;
+  --shadow:0 12px 35px rgba(23,32,51,.12);
+  --radius:18px
+}
+
+*{
+  box-sizing:border-box
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  color:var(--text)
+}
+
+button,
+input{
+  font:inherit
+}
+
+.app{
+  max-width:920px;
+  margin:auto;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column
+}
+
+.header{
+  background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+  color:#fff;
+  padding:24px 24px 22px;
+  position:sticky;
+  top:0;
+  z-index:3
+}
+
+.brand{
+  display:flex;
+  gap:14px;
+  align-items:center
+}
+
+.logo{
+  width:46px;
+  height:46px;
+  border-radius:14px;
+  background:rgba(255,255,255,.16);
+  display:grid;
+  place-items:center;
+  font-size:24px
+}
+
+h1{
+  font-size:22px;
+  margin:0 0 3px
+}
+
+.subtitle{
+  font-size:13px;
+  opacity:.88
+}
+
+.content{
+  padding:22px 18px 30px;
+  flex:1
+}
+
+.welcome{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:20px;
+  box-shadow:var(--shadow);
+  margin-bottom:18px
+}
+
+.welcome h2{
+  font-size:19px;
+  margin:0 0 8px
+}
+
+.welcome p{
+  margin:0;
+  color:var(--muted);
+  line-height:1.5
+}
+
+.suggestions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:16px
+}
+
+.chip{
+  border:1px solid var(--border);
+  background:#fff;
+  border-radius:999px;
+  padding:9px 13px;
+  cursor:pointer;
+  color:var(--text)
+}
+
+.chip:hover{
+  border-color:var(--primary);
+  color:var(--primary)
+}
+
+.chat{
+  display:flex;
+  flex-direction:column;
+  gap:12px
+}
+
+.msg{
+  max-width:86%;
+  padding:13px 15px;
+  border-radius:16px;
+  line-height:1.5;
+  font-size:14px
+}
+
+.bot{
+  align-self:flex-start;
+  background:#fff;
+  border:1px solid var(--border);
+  border-bottom-left-radius:5px
+}
+
+.user{
+  align-self:flex-end;
+  background:var(--primary);
+  color:#fff;
+  border-bottom-right-radius:5px
+}
+
+.answer{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:16px;
+  box-shadow:0 5px 18px rgba(23,32,51,.06)
+}
+
+.answer h3{
+  font-size:16px;
+  margin:0 0 7px
+}
+
+.answer p{
+  margin:7px 0;
+  color:#344054;
+  line-height:1.5
+}
+
+.badge{
+  display:inline-block;
+  background:#eef4ff;
+  color:var(--primary-dark);
+  padding:5px 9px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:700;
+  margin-bottom:8px
+}
+
+/* ============================================================
+   DOCUMENTS
+   ============================================================ */
+
+.documents{
+  margin-top:15px;
+  padding:14px;
+  background:#f7f9fc;
+  border:1px solid var(--border);
+  border-radius:12px
+}
+
+.documents-title{
+  display:block;
+  margin-bottom:10px;
+  font-size:14px
+}
+
+.document-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:10px 0;
+  border-top:1px solid var(--border)
+}
+
+.document-item:first-of-type{
+  border-top:0
+}
+
+.document-info{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+  min-width:0
+}
+
+.document-name{
+  font-size:13px;
+  font-weight:600;
+  color:var(--text)
+}
+
+.document-description{
+  font-size:11px;
+  color:var(--muted)
+}
+
+.document-type{
+  font-size:10px;
+  color:var(--muted);
+  text-transform:uppercase
+}
+
+.document-button{
+  flex-shrink:0;
+  border:1px solid var(--primary);
+  background:var(--primary);
+  color:#fff;
+  border-radius:9px;
+  padding:8px 11px;
+  cursor:pointer;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:700
+}
+
+.document-button:hover{
+  background:var(--primary-dark)
+}
+
+.document-intranet{
+  font-size:10px;
+  color:var(--muted);
+  margin-top:2px
+}
+
+/* ============================================================
+   CONTACT
+   ============================================================ */
+
+.contact{
+  margin-top:12px;
+  padding:12px;
+  border-radius:12px;
+  background:#f7f9fc;
+  border:1px solid var(--border)
+}
+
+.contact strong{
+  display:block;
+  margin-bottom:4px
+}
+
+.contact a{
+  color:var(--primary);
+  font-weight:700;
+  text-decoration:none
+}
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:12px
+}
+
+.action{
+  border:1px solid var(--border);
+  background:#fff;
+  border-radius:10px;
+  padding:8px 11px;
+  cursor:pointer;
+  color:var(--text);
+  text-decoration:none;
+  font-size:13px
+}
+
+.action.primary{
+  background:var(--primary);
+  color:#fff;
+  border-color:var(--primary)
+}
+
+/* ============================================================
+   BARRE DE RECHERCHE
+   ============================================================ */
+
+.searchbar{
+  position:sticky;
+  bottom:0;
+  background:rgba(244,247,251,.95);
+  backdrop-filter:blur(10px);
+  padding:12px 18px 18px;
+  border-top:1px solid var(--border)
+}
+
+.form{
+  display:flex;
+  gap:8px;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:7px 7px 7px 13px;
+  box-shadow:var(--shadow)
+}
+
+.form input{
+  border:0;
+  outline:0;
+  flex:1;
+  min-width:0;
+  color:var(--text);
+  background:transparent
+}
+
+.send{
+  border:0;
+  background:var(--primary);
+  color:#fff;
+  border-radius:10px;
+  padding:10px 15px;
+  cursor:pointer;
+  font-weight:700
+}
+
+.disclaimer{
+  font-size:11px;
+  color:var(--muted);
+  margin:8px 3px 0;
+  text-align:center
+}
+
+.hidden{
+  display:none!important
+}
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media(max-width:600px){
+
+  .header{
+    padding:18px
+  }
+
+  .content{
+    padding:15px 12px 24px
+  }
+
+  .searchbar{
+    padding:10px 12px 15px
+  }
+
+  .msg{
+    max-width:94%
+  }
+
+  .document-item{
+    flex-direction:column;
+    align-items:stretch
+  }
+
+  .document-button{
+    width:100%;
+    text-align:center;
+    padding:10px
+  }
+
+  .document-name{
+    font-size:13px
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- ========================================================
+       HEADER
+  ========================================================= -->
+
+  <header class="header">
+
+    <div class="brand">
+
+      <div class="logo">
+        🪄
+      </div>
+
+      <div>
+        <h1>Assistant RH</h1>
+        <div class="subtitle" id="orgName">
+          Mairie de Conflans-Sainte-Honorine
+        </div>
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- ========================================================
+       CONTENU
+  ========================================================= -->
+
+  <main class="content">
+
+    <section class="welcome">
+
+      <h2>
+        Bonjour 👋
+      </h2>
+
+      <p>
+        Posez simplement votre question, je vous orienterai vers
+        le bon interlocuteur et vers les documents utiles.
+      </p>
+
+      <div
+        class="suggestions"
+        id="suggestions">
+      </div>
+
+    </section>
+
+
+    <section
+      class="chat"
+      id="chat"
+      aria-live="polite">
+    </section>
+
+  </main>
+
+
+  <!-- ========================================================
+       BARRE DE RECHERCHE
+  ========================================================= -->
+
+  <div class="searchbar">
+
+    <form
+      class="form"
+      id="questionForm">
+
+      <input
+        id="question"
+        autocomplete="off"
+        placeholder="Ex. « Je ne comprends pas mon bulletin de salaire »"
+        aria-label="Votre question">
+
+      <button
+        class="send"
+        type="submit">
+        Envoyer
+      </button>
+
+    </form>
+
+    <div class="disclaimer">
+      Cet assistant est conçu pour vous orienter de manière générale.
+      Pour une situation individuelle, contactez l'interlocuteur indiqué.
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/*
+================================================================
+  ASSISTANT RH
+================================================================
+
+  ORGANISATION :
+
+  1. CONFIGURATION
+  2. CONTACTS
+  3. DOCUMENTS
+  4. FAQ
+  5. SUGGESTIONS
+  6. FONCTIONS
+  7. LANCEMENT DU CHATBOT
+
+================================================================
+*/
+
+
+/* ==============================================================
+   1. CONFIGURATION
+============================================================== */
+
+const ORG_NAME = "Mairie de Conflans-Sainte-Honorine";
+
+
+/* ==============================================================
+   2. CONTACTS
+============================================================== */
+
+const CONTACTS = {
+
+  gestionnaireCarriere: {
+    label: "Votre gestionnaire carrière",
+    email: "rhgestion@mairie-conflans.fr",
+    phone: "A_COMPLETER"
+  },
+
+  rhPaie: {
+    label: "Service Paie",
+    email: "rhpaie@mairie-conflans.fr",
+    phone: "0134908879"
+  },
+
+  formation: {
+    label: "Service Formation",
+    email: "formationrh@mairie-conflans.fr",
+    phone: "0134908903"
+  },
+
+  jessyca: {
+    label: "Jessyca Foulon",
+    email: "jfoulon@mairie-conflans.fr",
+    phone: "0134908903"
+  },
+
+  informatique: {
+    label: "Service informatique",
+    email: "A_COMPLETER",
+    phone: "A_COMPLETER"
+  }
+
+};
+
+
+/* ==============================================================
+   3. DOCUMENTS
+==============================================================
+
+   IMPORTANT :
+
+   Tu peux ajouter ici tous tes documents.
+
+   type:
+      "intranet" = document situé sur l'intranet
+      "local"    = document situé dans ton dossier documents
+
+   Exemple intranet :
+
+   url:
+   "https://intranet.mairie.fr/documents/reglement-conges.pdf"
+
+   Exemple fichier local :
+
+   url:
+   "documents/conges/reglement-conges.pdf"
+
+============================================================== */
+
+const DOCUMENTS = {
+
+
+  /* ------------------------------------------------------------
+     CONGES
+  ------------------------------------------------------------ */
+
+  reglementConges: {
+    title: "Règlement des congés",
+    description: "Règles relatives aux congés annuels",
+    type: "intranet",
+    format: "PDF",
+
+    url: "https://TON-INTRANET.fr/documents/reglement-conges.pdf"
+  },
+
+  formulaireConge: {
+    title: "Formulaire de demande de congé",
+    description: "Formulaire à compléter pour une demande de congé",
+    type: "intranet",
+    format: "PDF",
+
+    url: "https://TON-INTRANET.fr/documents/formulaire-conge.pdf"
+  },
+
+
+  /* ------------------------------------------------------------
+     PAIE
+  ------------------------------------------------------------ */
+
+  guideBulletinPaie: {
+    title: "Guide de lecture du bulletin de salaire",
+    description: "Comprendre les différentes rubriques de votre bulletin",
+    type: "intranet",
+    format: "PDF",
+
+    url: "https://TON-INTRANET.fr/documents/guide-bulletin-paie.pdf"
+  },
+
+  formulaireRIB: {
+    title: "Formulaire de changement de coordonnées bancaires",
+    description: "Procédure pour transmettre un nouveau RIB",
+    type: "intranet",
+    format: "PDF",
+
+    url: "https://TON-INTRANET.fr/documents/formulaire-rib.pdf"
+  },
+
+
+  /* ------------------------------------------------------------
+     FORMATION
+  ------------------------------------------------------------ */
+
+  catalogueFormation: {
+    title: "Catalogue des formations",
+    description: "Catalogue des formations proposées",
+    type: "intranet",
+    format: "PDF",
+
+    url: "https://TON-INTRANET.fr/documents/catalogue-formations.pdf"
+  },
+
+
+  /* ------------------------------------------------------------
+     SANTE / MALADIE
+  ------------------------------------------------------------ */
+
+  procedureArretMaladie: {
+    title: "Procédure d'arrêt maladie",
+    description: "Démarches à effectuer en cas d'arrêt maladie",
+    type: "intranet",
+    format: "PDF",
+
+    url: "https://TON-INTRANET.fr/documents/arret-maladie.pdf"
+  },
+
+
+  /* ------------------------------------------------------------
+     RETRAITE
+  ------------------------------------------------------------ */
+
+  guideRetraite: {
+    title: "Guide de préparation au départ à la retraite",
+    description: "Informations et démarches avant votre départ",
+    type: "intranet",
+    format: "PDF",
+
+    url: "https://TON-INTRANET.fr/documents/guide-retraite.pdf"
+  },
+
+
+  /* ------------------------------------------------------------
+     DOCUMENTS / ATTESTATIONS
+  ------------------------------------------------------------ */
+
+  demandeAttestation: {
+    title: "Demande d'attestation",
+    description: "Formulaire de demande de document administratif",
+    type: "intranet",
+    format: "PDF",
+
+    url: "https://TON-INTRANET.fr/documents/demande-attestation.pdf"
+  }
+
+};
+
+
+/* ==============================================================
+   4. FAQ
+============================================================== */
+
+const FAQ = [
+
+
+  /* ============================================================
+     CONGES / ABSENCES
+  ============================================================ */
+
+  {
+    id: "conges",
+
+    category: "Congés / Absences",
+
+    keywords: [
+      "congé",
+      "conges",
+      "congés",
+      "congés annuels",
+      "solde congés",
+      "poser congé",
+      "poser un congé",
+      "annuler congé",
+      "modifier congé",
+      "reporter congé",
+      "congés non pris",
+      "jours de congés",
+      "vacances",
+      "RTT",
+      "rtt",
+      "absence",
+      "CET",
+      "solde CET",
+      "compte épargne temps",
+      "congé bonifié"
+    ],
+
+    title: "Question sur vos congés, votre solde ou votre CET",
+
+    answer:
+      "Pour une question concernant vos congés, votre CET, votre solde de jours ou une anomalie dans votre compteur, consultez les documents utiles ci-dessous ou contactez votre gestionnaire carrière.",
+
+    contact: "gestionnaireCarriere",
+
+    documents: [
+      "reglementConges",
+      "formulaireConge"
+    ]
+  },
+
+
+  {
+    id: "asa",
+
+    category: "Congés / Absences",
+
+    keywords: [
+      "mariage",
+      "PACS",
+      "déménagement",
+      "demenagement",
+      "décès",
+      "deces",
+      "enfant malade",
+      "mon enfant est malade",
+      "ASA",
+      "autorisation spéciale d'absence",
+      "absence exceptionnelle",
+      "absence urgente",
+      "justificatif d'absence"
+    ],
+
+    title: "Question sur une absence exceptionnelle (ASA)",
+
+    answer:
+      "Pour une question concernant une absence exceptionnelle ou une autorisation spéciale d'absence, contactez votre gestionnaire carrière.",
+
+    contact: "gestionnaireCarriere"
+  },
+
+
+  /* ============================================================
+     PAIE
+  ============================================================ */
+
+  {
+    id: "salaire",
+
+    category: "Paie",
+
+    keywords: [
+      "bulletin",
+      "salaire",
+      "paie",
+      "paye",
+      "remuneration",
+      "rémunération",
+      "fiche de paie",
+      "fiche de salaire",
+      "bulletin de salaire",
+      "prime",
+      "prélèvement",
+      "prelevement",
+      "remboursement",
+      "abonnement",
+      "transports",
+      "Navigo",
+      "indemnité",
+      "régime indemnitaire",
+      "RIFSEEP",
+      "IFSE",
+      "CIA",
+      "NBI",
+      "indice majoré",
+      "SFT",
+      "supplément familial",
+      "prélèvement à la source",
+      "retenue sur salaire",
+      "régularisation",
+      "heures supplémentaires",
+      "astreinte",
+      "permanence"
+    ],
+
+    title: "Question sur votre bulletin de salaire",
+
+    answer:
+      "Pour toute question sur votre dernier bulletin de salaire, son contenu, une prime, une retenue ou une variation de rémunération, consultez le guide ci-dessous ou contactez RH Paie.",
+
+    contact: "rhPaie",
+
+    documents: [
+      "guideBulletinPaie"
+    ]
+  },
+
+
+  {
+    id: "rib",
+
+    category: "Paie",
+
+    keywords: [
+      "RIB",
+      "modifier RIB",
+      "changer RIB",
+      "changement RIB",
+      "nouvelle banque",
+      "nouveau RIB",
+      "coordonnées bancaires",
+      "coordonnees bancaires",
+      "compte bancaire"
+    ],
+
+    title: "J'ai changé de coordonnées bancaires",
+
+    answer:
+      "Pour transmettre votre nouveau RIB, consultez le formulaire ci-dessous ou contactez le service Paie qui vous indiquera la procédure à suivre.",
+
+    contact: "rhPaie",
+
+    documents: [
+      "formulaireRIB"
+    ]
+  },
+
+
+  {
+    id: "frais-mission",
+
+    category: "Paie",
+
+    keywords: [
+      "frais de mission",
+      "frais mission",
+      "hôtel",
+      "hotel",
+      "restauration",
+      "frais kilométriques",
+      "frais kilometriques",
+      "formulaire",
+      "déplacement",
+      "deplacement",
+      "transports",
+      "mission",
+      "état de frais"
+    ],
+
+    title: "Question concernant des frais de mission ou de déplacement",
+
+    answer:
+      "Pour obtenir des informations sur le remboursement des frais liés à vos missions ou déplacements, contactez le service concerné.",
+
+    contact: "formation"
+  },
+
+
+  {
+    id: "carte-pluxee",
+
+    category: "Paie",
+
+    keywords: [
+      "adhésion",
+      "adhérer",
+      "carte",
+      "carte déjeuner",
+      "déjeuner",
+      "ticket restaurant",
+      "tickets restaurant",
+      "carte Pluxee",
+      "pluxee"
+    ],
+
+    title: "Question concernant la carte déjeuner Pluxee",
+
+    answer:
+      "Contactez le service Paie qui vous renseignera sur les modalités d'adhésion et son fonctionnement.",
+
+    contact: "rhPaie"
+  },
+
+
+  /* ============================================================
+     DOSSIER ADMINISTRATIF
+  ============================================================ */
+
+  {
+    id: "adresse",
+
+    category: "Dossier administratif",
+
+    keywords: [
+      "adresse",
+      "modifier adresse",
+      "changement adresse",
+      "nouvelle adresse",
+      "déménagement",
+      "demenagement",
+      "domicile"
+    ],
+
+    title: "J'ai déménagé, comment modifier mon adresse ?",
+
+    answer:
+      "Pour modifier votre adresse, contactez votre gestionnaire carrière afin de connaître la procédure à suivre et les éventuels justificatifs à transmettre.",
+
+    contact: "gestionnaireCarriere"
+  },
+
+
+  {
+    id: "dossier-agent",
+
+    category: "Dossier administratif",
+
+    keywords: [
+      "dossier agent",
+      "dossier administratif",
+      "gestion administrative",
+      "coordonnées personnelles",
+      "coordonnees personnelles",
+      "situation familiale",
+      "mariage",
+      "PACS",
+      "divorce",
+      "naissance",
+      "enfant",
+      "livret de famille",
+      "arrêté",
+      "arrete",
+      "numéro d'agent",
+      "numero d'agent",
+      "matricule",
+      "correction dossier",
+      "rectification données personnelles"
+    ],
+
+    title: "Question concernant votre dossier administratif",
+
+    answer:
+      "Pour une question concernant votre situation administrative ou votre dossier agent, contactez votre gestionnaire carrière.",
+
+    contact: "gestionnaireCarriere"
+  },
+
+
+  /* ============================================================
+     FORMATION
+  ============================================================ */
+
+  {
+    id: "formation",
+
+    category: "Formation",
+
+    keywords: [
+      "formation",
+      "former",
+      "stage",
+      "CNFPT",
+      "catalogue",
+      "formation professionnelle",
+      "absence formation",
+      "inscription formation",
+      "demande formation",
+      "financement formation",
+      "bilan de compétences",
+      "VAE",
+      "validation des acquis",
+      "congé de formation",
+      "reconversion",
+      "projet professionnel",
+      "formation obligatoire",
+      "attestation de formation",
+      "CPF",
+      "compte personnel de formation"
+    ],
+
+    title: "Question sur une formation",
+
+    answer:
+      "Pour une demande de formation, une question sur le catalogue ou le suivi d'une inscription, consultez le catalogue ou contactez le Service Formation.",
+
+    contact: "formation",
+
+    documents: [
+      "catalogueFormation"
+    ]
+  },
+
+
+  {
+    id: "concours-examens",
+
+    category: "Formation",
+
+    keywords: [
+      "concours",
+      "inscription concours",
+      "calendrier concours",
+      "préparation concours",
+      "preparation concours",
+      "examen professionnel",
+      "examens professionnels"
+    ],
+
+    title: "Renseignements sur les concours ou examens professionnels",
+
+    answer:
+      "Contactez le service Formation afin de connaître la marche à suivre et les éventuels justificatifs à transmettre.",
+
+    contact: "formation"
+  },
+
+
+  {
+    id: "cpf",
+
+    category: "Formation",
+
+    keywords: [
+      "CPF",
+      "compte personnel de formation",
+      "heures CPF",
+      "compteur CPF",
+      "solde CPF"
+    ],
+
+    title: "Question concernant votre CPF",
+
+    answer:
+      "Pour obtenir des informations sur votre compte CPF ou son utilisation, contactez le service Formation.",
+
+    contact: "formation"
+  },
+
+
+  /* ============================================================
+     SANTE / MALADIE
+  ============================================================ */
+
+  {
+    id: "maladie",
+
+    category: "Santé / Maladie",
+
+    keywords: [
+      "arrêt maladie",
+      "arret maladie",
+      "maladie",
+      "arrêt",
+      "arret",
+      "médecin",
+      "medecin",
+      "jour de carence",
+      "carence",
+      "reprise",
+      "reprise après maladie",
+      "temps partiel thérapeutique",
+      "accident de service",
+      "accident de trajet",
+      "maladie professionnelle"
+    ],
+
+    title: "Question concernant un arrêt maladie",
+
+    answer:
+      "Pour connaître la procédure à suivre en cas d'arrêt maladie, consultez le document ci-dessous. Pour une situation individuelle, contactez votre interlocuteur RH.",
+
+    contact: "gestionnaireCarriere",
+
+    documents: [
+      "procedureArretMaladie"
+    ]
+  },
+
+
+  /* ============================================================
+     MUTUELLE / PREVOYANCE
+  ============================================================ */
+
+  {
+    id: "mutuelle-prevoyance",
+
+    category: "Mutuelle / Prévoyance",
+
+    keywords: [
+      "mutuelle",
+      "mutuelle santé",
+      "mutuelle sante",
+      "prévoyance",
+      "prevoyance",
+      "adhésion mutuelle",
+      "adhesion mutuelle",
+      "participation employeur",
+      "participation employeur mutuelle",
+      "protection sociale",
+      "complémentaire santé",
+      "complementaire sante"
+    ],
+
+    title: "Question concernant la mutuelle ou la prévoyance",
+
+    answer:
+      "Pour une question concernant votre mutuelle, la prévoyance ou la participation employeur, contactez votre interlocuteur RH."
+  },
+
+
+  /* ============================================================
+     INTRANET
+  ============================================================ */
+
+  {
+    id: "connexion-intranet",
+
+    category: "Intranet",
+
+    keywords: [
+      "intranet",
+      "connexion",
+      "connecter",
+      "connexion intranet",
+      "mot de passe",
+      "identifiant",
+      "login",
+      "accès",
+      "acces"
+    ],
+
+    title: "Problème de connexion à l'intranet",
+
+    answer:
+      "Si vous n'arrivez pas à vous connecter à l'intranet, contactez la personne référente indiquée ci-dessous. Si un message d'erreur apparaît, transmettez-le dans votre demande.",
+
+    contact: "jessyca"
+  },
+
+
+  /* ============================================================
+     COMPTE SMD
+  ============================================================ */
+
+  {
+    id: "compte-smd",
+
+    category: "Compte SMD",
+
+    keywords: [
+      "SMD",
+      "compte SMD",
+      "compte smd",
+      "identifiant SMD",
+      "mot de passe SMD",
+      "connexion SMD",
+      "compte",
+      "identifiants"
+    ],
+
+    title: "Question concernant votre compte SMD",
+
+    answer:
+      "Pour une question concernant votre compte SMD, vos identifiants ou votre accès, contactez le service informatique.",
+
+    contact: "informatique"
+  },
+
+
+  /* ============================================================
+     DOCUMENTS / ATTESTATIONS
+  ============================================================ */
+
+  {
+    id: "attestation",
+
+    category: "Documents / Attestations",
+
+    keywords: [
+      "attestation",
+      "attestation employeur",
+      "attestation emploi",
+      "certificat de travail",
+      "document administratif",
+      "copie arrêté",
+      "copie arrete",
+      "état des services",
+      "etat des services",
+      "document RH",
+      "justificatif"
+    ],
+
+    title: "Demande de document ou d'attestation",
+
+    answer:
+      "Pour obtenir une attestation ou un document administratif, consultez le formulaire disponible ci-dessous ou contactez votre gestionnaire carrière.",
+
+    contact: "gestionnaireCarriere",
+
+    documents: [
+      "demandeAttestation"
+    ]
+  },
+
+
+  /* ============================================================
+     RETRAITE
+  ============================================================ */
+
+  {
+    id: "retraite",
+
+    category: "Retraite",
+
+    keywords: [
+      "retraite",
+      "départ retraite",
+      "depart retraite",
+      "partir en retraite",
+      "âge retraite",
+      "age retraite",
+      "carrière retraite",
+      "carriere retraite",
+      "trimestres",
+      "retraite progressive",
+      "pension",
+      "départ",
+      "depart"
+    ],
+
+    title: "Question concernant votre retraite",
+
+    answer:
+      "Pour obtenir des informations sur votre retraite et préparer votre départ, consultez le guide ci-dessous ou contactez votre gestionnaire carrière.",
+
+    contact: "gestionnaireCarriere",
+
+    documents: [
+      "guideRetraite"
+    ]
+  },
+
+
+  /* ============================================================
+     CARRIERE
+  ============================================================ */
+
+  {
+    id: "carriere",
+
+    category: "Autre demande RH",
+
+    keywords: [
+      "carrière",
+      "carriere",
+      "avancement",
+      "promotion",
+      "grade",
+      "échelon",
+      "echelon",
+      "titularisation",
+      "mutation",
+      "mobilité",
+      "mobilite",
+      "entretien professionnel",
+      "ancienneté",
+      "anciennete"
+    ],
+
+    title: "Question concernant votre carrière",
+
+    answer:
+      "Pour une question sur votre situation administrative, votre grade, votre échelon, un avancement ou votre évolution de carrière, contactez votre gestionnaire carrière.",
+
+    contact: "gestionnaireCarriere"
+  },
+
+
+  /* ============================================================
+     INFORMATIQUE
+  ============================================================ */
+
+  {
+    id: "informatique",
+
+    category: "Autre demande RH",
+
+    keywords: [
+      "ordinateur",
+      "PC",
+      "informatique",
+      "imprimante",
+      "souris",
+      "clavier",
+      "logiciel",
+      "écran",
+      "ecran",
+      "panne",
+      "bug",
+      "application"
+    ],
+
+    title: "Problème informatique",
+
+    answer:
+      "Pour un problème matériel ou informatique, contactez le service informatique de la collectivité.",
+
+    contact: "informatique"
+  },
+
+
+  /* ============================================================
+     AUTRE DEMANDE RH
+  ============================================================ */
+
+  {
+    id: "autre-rh",
+
+    category: "Autre demande RH",
+
+    keywords: [
+      "autre demande",
+      "question RH",
+      "demande RH",
+      "ressources humaines",
+      "RH",
+      "service RH",
+      "contacter RH",
+      "besoin RH"
+    ],
+
+    title: "Autre demande RH",
+
+    answer:
+      "Si votre demande ne correspond pas aux rubriques proposées, contactez votre gestionnaire carrière qui pourra vous orienter vers le bon interlocuteur.",
+
+    contact: "gestionnaireCarriere"
+  },
+
+
+  /* ============================================================
+     EASTER EGG
+  ============================================================ */
+
+  {
+    id: "easter-egg",
+
+    category: "Autre demande RH",
+
+    keywords: [
+      "licorne",
+      "en pls"
+    ],
+
+    title: "Nous allons prendre soin de vous 🦄",
+
+    answer:
+      "Calmez-vous, prenez une grande inspiration, on arrive ! 😄",
+
+    contact: "informatique"
+  }
+
+];
+
+
+/* ==============================================================
+   5. SUGGESTIONS
+============================================================== */
+
+const suggestions = [
+
+  [
+    "🏖️ Congés / Absences",
+    "J'ai un problème avec mes congés"
+  ],
+
+  [
+    "💶 Paie",
+    "Je ne comprends pas mon dernier bulletin de salaire"
+  ],
+
+  [
+    "🗂️ Dossier administratif",
+    "Comment modifier mon adresse ?"
+  ],
+
+  [
+    "🎓 Formation",
+    "Je souhaite faire une formation"
+  ],
+
+  [
+    "🩺 Santé / Maladie",
+    "Comment déclarer un arrêt maladie ?"
+  ],
+
+  [
+    "🫶 Mutuelle / Prévoyance",
+    "Qu'est-ce que la prévoyance ?"
+  ],
+
+  [
+    "💻 Intranet",
+    "Je n'arrive pas à me connecter à l'intranet"
+  ],
+
+  [
+    "🎯 Compte SMD",
+    "Je ne connais pas mes identifiants SMD"
+  ],
+
+  [
+    "📑 Documents / Attestations",
+    "J'ai besoin d'une attestation employeur"
+  ],
+
+  [
+    "👩‍🦳 Retraite",
+    "Quand pourrai-je partir à la retraite ?"
+  ],
+
+  [
+    "❓ Autre demande RH",
+    "J'ai une autre demande RH"
+  ]
+
+];
+
+
+/* ==============================================================
+   6. FONCTIONS
+============================================================== */
+
+
+/* --------------------------------------------------------------
+   NOM DE LA COLLECTIVITE
+-------------------------------------------------------------- */
+
+document.getElementById("orgName").textContent = ORG_NAME;
+
+
+/* --------------------------------------------------------------
+   SECURITE HTML
+-------------------------------------------------------------- */
+
+function escapeHtml(s){
+
+  return String(s).replace(
+    /[&<>"']/g,
+
+    c => ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      "\"":"&quot;",
+      "'":"&#039;"
+    }[c])
+  );
+
+}
+
+
+/* --------------------------------------------------------------
+   NORMALISATION
+-------------------------------------------------------------- */
+
+function normalize(s){
+
+  return s
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"");
+
+}
+
+
+/* --------------------------------------------------------------
+   SCORE DE RECHERCHE
+-------------------------------------------------------------- */
+
+function score(question,item){
+
+  const q = normalize(question);
+
+  let total = 0;
+
+  for(const k of item.keywords){
+
+    const nk = normalize(k);
+
+    if(q.includes(nk)){
+
+      total += nk.length >= 7 ? 3 : 2;
+
+    }
+
+  }
+
+  return total;
+
+}
+
+
+/* --------------------------------------------------------------
+   RECHERCHE FAQ
+-------------------------------------------------------------- */
+
+function findMatches(question){
+
+  return FAQ
+    .map(x => ({
+      item:x,
+      score:score(question,x)
+    }))
+    .filter(x => x.score > 0)
+    .sort((a,b) => b.score - a.score);
+
+}
+
+
+/* --------------------------------------------------------------
+   AFFICHAGE DES DOCUMENTS
+-------------------------------------------------------------- */
+
+function documentsHtml(documentKeys){
+
+  if(
+    !documentKeys ||
+    !documentKeys.length
+  ){
+
+    return "";
+
+  }
+
+
+  let out = `
+    <div class="documents">
+
+      <strong class="documents-title">
+        📚 Documents utiles
+      </strong>
+  `;
+
+
+  documentKeys.forEach(key => {
+
+    const doc = DOCUMENTS[key];
+
+    if(!doc){
+      return;
+    }
+
+
+    const isIntranet =
+      doc.type === "intranet";
+
+
+    const buttonLabel =
+      isIntranet
+        ? "🔐 Consulter"
+        : "📄 Consulter";
+
+
+    out += `
+
+      <div class="document-item">
+
+        <div class="document-info">
+
+          <div class="document-name">
+            ${escapeHtml(doc.title)}
+          </div>
+
+          ${
+            doc.description
+              ? `
+                <div class="document-description">
+                  ${escapeHtml(doc.description)}
+                </div>
+              `
+              : ""
+          }
+
+          <div class="document-type">
+
+            ${escapeHtml(doc.format || "Document")}
+
+            ${
+              isIntranet
+                ? `
+                  · Document interne
+                `
+                : ""
+            }
+
+          </div>
+
+          ${
+            isIntranet
+              ? `
+                <div class="document-intranet">
+                  🔐 Une authentification intranet peut être demandée
+                  sur mobile.
+                </div>
+              `
+              : ""
+          }
+
+        </div>
+
+
+        <a
+          class="document-button"
+          href="${escapeHtml(doc.url)}"
+          target="_self"
+          rel="noopener">
+
+          ${buttonLabel}
+
+        </a>
+
+      </div>
+
+    `;
+
+  });
+
+
+  out += `
+    </div>
+  `;
+
+
+  return out;
+
+}
+
+
+/* --------------------------------------------------------------
+   CONTACT
+-------------------------------------------------------------- */
+
+function contactHtml(contactKey){
+
+  const c = CONTACTS[contactKey];
+
+  if(!c){
+
+    return "";
+
+  }
+
+
+  const emailOk =
+    c.email &&
+    !c.email.includes("A_COMPLETER");
+
+
+  const phoneOk =
+    c.phone &&
+    !c.phone.includes("A_COMPLETER");
+
+
+  let out = `
+
+    <div class="contact">
+
+      <strong>
+        📍 Votre interlocuteur :
+        ${escapeHtml(c.label)}
+      </strong>
+  `;
+
+
+  if(emailOk){
+
+    out += `
+
+      <div>
+        ✉️
+        <a href="mailto:${escapeHtml(c.email)}">
+          ${escapeHtml(c.email)}
+        </a>
+      </div>
+
+    `;
+
+  }
+  else{
+
+    out += `
+
+      <div>
+        ✉️ Email :
+        <em>à compléter</em>
+      </div>
+
+    `;
+
+  }
+
+
+  if(phoneOk){
+
+    out += `
+
+      <div>
+        ☎️ ${escapeHtml(c.phone)}
+      </div>
+
+    `;
+
+  }
+  else{
+
+    out += `
+
+      <div>
+        ☎️ Téléphone :
+        <em>à compléter</em>
+      </div>
+
+    `;
+
+  }
+
+
+  out += `
+
+    </div>
+
+    <div class="actions">
+
+  `;
+
+
+  if(emailOk){
+
+    out += `
+
+      <a
+        class="action primary"
+        href="mailto:${escapeHtml(c.email)}">
+
+        ✉️ Envoyer un email
+
+      </a>
+
+    `;
+
+  }
+
+
+  if(phoneOk){
+
+    out += `
+
+      <a
+        class="action"
+        href="tel:${escapeHtml(
+          c.phone.replace(/\s/g,'')
+        )}">
+
+        ☎️ Appeler
+
+      </a>
+
+    `;
+
+  }
+
+
+  out += `
+    </div>
+  `;
+
+
+  return out;
+
+}
+
+
+/* --------------------------------------------------------------
+   AJOUT MESSAGE
+-------------------------------------------------------------- */
+
+function addMessage(
+  html,
+  who="bot"
+){
+
+  const el =
+    document.createElement("div");
+
+
+  el.className =
+    "msg " + who;
+
+
+  el.innerHTML =
+    html;
+
+
+  document
+    .getElementById("chat")
+    .appendChild(el);
+
+
+  el.scrollIntoView({
+    behavior:"smooth",
+    block:"nearest"
+  });
+
+}
+
+
+/* --------------------------------------------------------------
+   REPONSE
+-------------------------------------------------------------- */
+
+function answer(question){
+
+  const matches =
+    findMatches(question);
+
+
+  /* ------------------------------------------------------------
+     AUCUN RESULTAT
+  ------------------------------------------------------------ */
+
+  if(!matches.length){
+
+    addMessage(`
+
+      <div class="answer">
+
+        <h3>
+          Je n'ai pas identifié votre demande
+        </h3>
+
+        <p>
+          Essayez avec des mots comme
+          <strong>congés</strong>,
+          <strong>bulletin de salaire</strong>,
+          <strong>formation</strong>,
+          <strong>arrêt maladie</strong>,
+          <strong>mutuelle</strong>,
+          <strong>retraite</strong>,
+          <strong>intranet</strong>
+          ou
+          <strong>attestation</strong>.
+        </p>
+
+        <p>
+          Si vous le souhaitez, vous pouvez également
+          contacter directement le service RH.
+        </p>
+
+      </div>
+
+    `);
+
+    return;
+
+  }
+
+
+  /* ------------------------------------------------------------
+     MEILLEUR RESULTAT
+  ------------------------------------------------------------ */
+
+  const best =
+    matches[0];
+
+
+  const second =
+    matches[1];
+
+
+  let html = `
+
+    <div class="answer">
+
+      <span class="badge">
+        ${escapeHtml(best.item.category)}
+      </span>
+
+      <h3>
+        ${escapeHtml(best.item.title)}
+      </h3>
+
+      <p>
+        ${escapeHtml(best.item.answer)}
+      </p>
+
+      ${documentsHtml(best.item.documents)}
+
+      ${contactHtml(best.item.contact)}
+
+  `;
+
+
+  /* ------------------------------------------------------------
+     SECOND RESULTAT
+  ------------------------------------------------------------ */
+
+  if(
+    second &&
+    second.score >= best.score - 1
+  ){
+
+    html += `
+
+      <p
+        style="
+          margin-top:14px;
+          color:#667085;
+          font-size:13px;
+        ">
+
+        Si votre question est plutôt liée à
+        <strong>
+          ${escapeHtml(second.item.category)}
+        </strong>,
+        dites-le-moi ou reformulez votre demande.
+
+      </p>
+
+    `;
+
+  }
+
+
+  html += `
+
+    </div>
+
+  `;
+
+
+  addMessage(html);
+
+}
+
+
+/* --------------------------------------------------------------
+   ENVOI QUESTION
+-------------------------------------------------------------- */
+
+function submitQuestion(q){
+
+  q = q.trim();
+
+
+  if(!q){
+
+    return;
+
+  }
+
+
+  addMessage(
+    escapeHtml(q),
+    "user"
+  );
+
+
+  setTimeout(
+    () => answer(q),
+    120
+  );
+
+
+  document
+    .getElementById("question")
+    .value = "";
+
+}
+
+
+/* ==============================================================
+   7. INITIALISATION
+============================================================== */
+
+
+/* --------------------------------------------------------------
+   FORMULAIRE
+-------------------------------------------------------------- */
+
+document
+  .getElementById("questionForm")
+  .addEventListener(
+    "submit",
+    e => {
+
+      e.preventDefault();
+
+      submitQuestion(
+        document
+          .getElementById("question")
+          .value
+      );
+
+    }
+  );
+
+
+/* --------------------------------------------------------------
+   BOUTONS DE SUGGESTION
+-------------------------------------------------------------- */
+
+const sug =
+  document.getElementById("suggestions");
+
+
+suggestions.forEach(
+  ([label,q]) => {
+
+    const b =
+      document.createElement("button");
+
+
+    b.className =
+      "chip";
+
+
+    b.type =
+      "button";
+
+
+    b.textContent =
+      label;
+
+
+    b.onclick =
+      () => submitQuestion(q);
+
+
+    sug.appendChild(b);
+
+  }
+);
+
+</script>
+
+</body>
+</html>
