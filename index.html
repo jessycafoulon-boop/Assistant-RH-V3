@@ -506,13 +506,13 @@ const CONTACTS = {
   },
 
   rhPaie: {
-    label: "Service Paie",
+    label: "Secteur Paie",
     email: "rhpaie@mairie-conflans.fr",
     phone: "0134908879"
   },
 
   formation: {
-    label: "Service Formation",
+    label: "Secteur Formation",
     email: "formationrh@mairie-conflans.fr",
     phone: "0134908903"
   },
@@ -555,7 +555,21 @@ dans la FAQ correspondante.
 */
 
 const DOCUMENTS = {
+  
+tempstravail: {
 
+    title: "Règlement relatif au temps de travail",
+
+    description: "Organisation du temps de travail pour les agents de la ville, du CCAS et du théâtre",
+
+    type: "intranet",
+
+    format: "PDF",
+
+    url: "https://c.conflans.mairie-conflans.fr/#!/media/documents/ab19fec5-96cf-43b7-9b38-4e96e8bdcca6"
+
+  },
+    
   formulaireRIB: {
 
     title: "Formulaire de changement de coordonnées bancaires",
@@ -637,7 +651,6 @@ const FAQ = [
       "solde CET",
       "compte épargne temps",
       "congé bonifié",
-      "SMD"
     ],
 
     title:
@@ -648,7 +661,8 @@ const FAQ = [
 
     contact: "gestionnaireCarriere",
 
-    document: "ConnexionSMD"
+    document: "tempstravail",
+  
   },
 
 
@@ -730,7 +744,7 @@ const FAQ = [
       "Question sur votre bulletin de salaire",
 
     answer:
-      "Pour toute question sur votre dernier bulletin de salaire, son contenu, une prime, une retenue ou une variation de rémunération, contactez RH Paie.",
+      "Pour toute question sur votre dernier bulletin de salaire, son contenu, une prime, une retenue ou une variation de rémunération, contactez le secteur Paie.",
 
     contact: "rhPaie"
   },
@@ -759,7 +773,7 @@ const FAQ = [
       "Changement de coordonnées bancaires",
 
     answer:
-      "Pour transmettre votre nouveau RIB, consultez le formulaire ci-dessous. Si nécessaire, contactez également le service Paie.",
+      "Pour transmettre votre nouveau RIB, consultez le formulaire ci-dessous. Si nécessaire, contactez également le secteur Paie.",
 
     contact: "rhPaie",
 
@@ -1017,11 +1031,12 @@ const FAQ = [
       "intranet",
       "connexion intranet",
       "connecter intranet",
-      "mot de passe",
+      "mot de passe intranet",
       "identifiant intranet",
-      "login",
+      "login intranet",
       "accès intranet",
-      "acces intranet"
+      "acces intranet",
+      "C.Conflans"
     ],
 
     title:
@@ -1031,6 +1046,34 @@ const FAQ = [
       "Si vous n'arrivez pas à vous connecter à l'intranet, contactez la personne référente indiquée ci-dessous. Si un message d'erreur apparaît, transmettez-le dans votre demande.",
 
     contact: "jessyca"
+  },
+  /* =========================
+     Compte SMD
+     ========================= */
+
+  {
+    id: "connexion-SMD",
+
+    category: "Compte SMD",
+
+    keywords: [
+      "connexion SMD",
+      "connecter SMD",
+      "mot de passe SMD",
+      "identifiant SMD",
+      "login SMD"
+    ],
+
+    title:
+      "Problème de connexion à votre compte SMD",
+
+    answer:
+      "Si vous n'arrivez pas à vous connecter à votre compte SMD, contactez votre gestionnaire carrière. Si un message d'erreur apparaît, transmettez-le dans votre demande.",
+
+    contact: "gestionnaireCarrière",
+    
+    document: "ConnexionSMD"
+    
   },
 
 
