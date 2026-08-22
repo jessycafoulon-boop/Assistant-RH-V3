@@ -1039,12 +1039,10 @@ const FAQ = [
 
     contact: "formation",
     
-    document: "CatalogueCNFPT",
-    
-    document: "Formulaireinscriptionformation",
-    
-    document: "Reglementformation"
-    
+    documents: ["CatalogueCNFPT",  
+    "Formulaireinscriptionformation",
+    "Reglementformation"
+    ]
   },
 
 
@@ -1914,14 +1912,13 @@ function answer(question){
         best.item.contact
       )}
 
-      ${
-        best.item.document
-        ? documentButton(
-            DOCUMENTS[
-              best.item.document
-            ]
-          )
-        : ""
+${
+  best.item.documents
+    ? best.item.documents
+        .map(docKey => documentButton(DOCUMENTS[docKey]))
+        .join("")
+    : ""
+}
       }
 
   `;
