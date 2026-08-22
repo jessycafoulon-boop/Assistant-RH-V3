@@ -446,12 +446,29 @@ document:"nouveauDocument"
 dans la FAQ correspondante.
 */
 const DOCUMENTS = {
+  
+  Gestcarr: {
+    title: "Votre Gestionnaire carrière",
+    description: "Pour connaître le nom de votre Gestionnaire carrière, cliquez sur ce lien",
+    type: "intranet",
+    format: "lien",
+    url: "https://c.conflans.mairie-conflans.fr/#!/community/Ressources%2520Humaines/b1876ea4-a47a-4cb4-b84e-076eeade8ce6/d8bad4a4-3557-4feb-8087-54df234e8080/f696bd4c-ba5b-483f-a228-13b29933ef85/viewdetail/"
+  },
+  
 tempstravail: {
     title: "Règlement relatif au temps de travail",
     description: "Organisation du temps de travail pour les agents de la ville, du CCAS et du théâtre",
     type: "intranet",
     format: "PDF",
     url: "https://c.conflans.mairie-conflans.fr/#!/media/documents/ab19fec5-96cf-43b7-9b38-4e96e8bdcca6"
+  },
+  
+  cet: {
+    title: "Le Compte Epargne Temps",
+    description: "Pour connaître le fonctionnement du Compte Epargne Temps, consultez ce document",
+    type: "intranet",
+    format: "PDF",
+    url: "https://c.conflans.mairie-conflans.fr/#!/media/documents/873c5cac-8923-4be2-8ca3-264c7676b923"
   },
    
   formulaireRIB: {
@@ -461,6 +478,7 @@ tempstravail: {
     format: "PDF",
     url: "https://c.conflans.mairie-conflans.fr/#!/media/documents/df5ec181-0683-42e0-94d7-193218d840ff"
   },
+  
     transmissiondocument: {
     title: "Comment transmettre vos documents au service RH",
     description: "Vous devez transmettre un document (RIB, document d'identité, arrêt maladie...) au service des Ressources Humaines ?",
@@ -606,8 +624,13 @@ const FAQ = [
       "Question sur vos congés, votre solde ou votre CET",
     answer:
       "Pour une question concernant vos congés, votre CET, votre solde de jours ou une anomalie dans votre compteur, contactez votre gestionnaire carrière.",
+    
     contact: "gestionnaireCarriere",
-    document: "tempstravail",
+    
+    documents: ["tempstravail",
+    "cet",
+    "Gestcarr"
+               ]
  
   },
   {
@@ -634,7 +657,9 @@ const FAQ = [
       "Pour une question concernant une absence exceptionnelle ou une ASA, contactez votre gestionnaire carrière.",
     contact: "gestionnaireCarriere",
      
-    document: "transmissiondocument"
+    documents: ["transmissiondocument",
+                "Gestcarr"
+                ]
   },
   /* =========================
      PAIE
